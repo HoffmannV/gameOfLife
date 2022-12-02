@@ -1,12 +1,12 @@
 from datetime import datetime
 import math
 
-class Player:
+hb = ""
+for x in range(33):
+    hb += "-"
 
-    #hb is the horizontal bar
-    hb = ""
-    for x in range(33):
-        hb += "-"
+
+class Player:
 
     def __init__(self, name, birthday):
         self.name = name
@@ -16,11 +16,11 @@ class Player:
         self.zodiac = self.get_zodiac()
 
     def __repr__(self):
-        return f"{self.hb}\n|Player Info\t\t\t|\n{self.hb} \
+        return f"{hb}\n|Player Info\t\t\t|\n{hb} \
                 \n Name:\t\t{self.name}\
                 \n Age:\t\t{self.calc_age()}\
                 \n Zodiac Sign:\t{self.get_zodiac()}\
-                \n{self.hb}\n|Skills\t\t\t\t|\n{self.hb}\n{self.get_skills()}"
+                \n{hb}\n|Skills\t\t\t\t|\n{hb}\n{self.get_skills()}"
 
     #converts timedelta to years
     def calc_age(self):
@@ -83,9 +83,50 @@ class Player:
         skill_str = ""
         return skill_str
 
-class Skills:
-    def __init__(self, skill):
+class Skill:
+    def __init__(self, skill, time):
         self.skill = {skill: 0}
+        self.time = time
 
 class Diary:
-    pass
+    topic = ""
+    skill_obj = []
+    subject = []
+    details = []
+
+    def __init__(self):
+        self.dates = []
+
+    def __repr__(self):
+        return f""
+
+    def add_entry(self):
+        self.dates.append(datetime.now())
+        topic = input("Enter here what activities you did today (One word for each activity separated by a comma)\n")
+
+        skills = topic.split(',')
+        skills = [skill.strip().title() for skill in skills]
+
+        for skill in skills:
+            time = input(f"How much time did you spend on {skill}(in minutes):")
+            self.skill_obj.append(Skill(skill, time))
+            self.subject.append(input(f"Subject (optional):"))
+            print(f"You can add additional details\n{hb}\n")
+            details = ""
+            currLine = " "
+            while currLine != "":
+                currLine = input()
+                if currLine != "":
+                    details += currLine
+            self.details.append(details)
+
+    #def print_skills(self):
+    #    for skill in self.skill_obj:
+    #        print(skill.skill)
+
+diary = Diary()
+diary.add_entry()
+print(diary.subject)
+print(diary.details)
+
+#print(diary.print_skills())
