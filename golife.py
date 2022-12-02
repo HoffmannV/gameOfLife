@@ -5,7 +5,7 @@ class Player:
 
     #hb is the horizontal bar
     hb = ""
-    for x in range(25):
+    for x in range(33):
         hb += "-"
 
     def __init__(self, name, birthday):
@@ -16,10 +16,11 @@ class Player:
         self.zodiac = self.get_zodiac()
 
     def __repr__(self):
-        return f"{self.hb}\n|Player Info\t\t|\n{self.hb} \
-                \n|Name: {self.name}\t\t|\n|Age: {self.calc_age()}\t\t|\
-                \n|Zodiac Sign: {self.get_zodiac()}\t|\
-                \n{self.hb}\n|Skills\t\t\t|\n{self.hb}\n{self.get_skills()}"
+        return f"{self.hb}\n|Player Info\t\t\t|\n{self.hb} \
+                \n Name:\t\t{self.name}\
+                \n Age:\t\t{self.calc_age()}\
+                \n Zodiac Sign:\t{self.get_zodiac()}\
+                \n{self.hb}\n|Skills\t\t\t\t|\n{self.hb}\n{self.get_skills()}"
 
     #converts timedelta to years
     def calc_age(self):
