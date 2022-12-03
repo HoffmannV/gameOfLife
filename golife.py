@@ -5,6 +5,12 @@ hb = ""
 for x in range(33):
     hb += "-"
 
+def draw_hb(size):
+    horizontal_bar = ""
+    for x in range(size):
+        horizontal_bar += "-"
+    return horizontal_bar
+
 
 class Player:
 
@@ -84,14 +90,22 @@ class Player:
         return skill_str
 
 class Skill:
-    def __init__(self, skill, time):
-        self.skill = {skill: 0}
-        self.time = time
+    def __init__(self, skill):
+        self.skill = {skill: [0, 0]}
+    
+    def add_experience(self, skill, time):
+        lvl_skill = self.skill[skill]
+        lvl_skill[1] += time
+        experience = lvl_skill[1]
+        lvl_skill[0] = math.floor(experience / 60)
+
+        self.skill[skill] = lvl_skill
+
+        return lvl_skill
 
 class Diary:
     topic = ""
-    skill_obj = []
-    subject = []
+    entry = ""
     details = []
 
     def __init__(self):
@@ -108,25 +122,45 @@ class Diary:
         skills = [skill.strip().title() for skill in skills]
 
         for skill in skills:
+            self.entry += "{}\n{}\n".format(self.format_title("Activity"), skill)
             time = input(f"How much time did you spend on {skill}(in minutes):")
-            self.skill_obj.append(Skill(skill, time))
-            self.subject.append(input(f"Subject (optional):"))
+            new_skill = Skill(skill)
+            self.entry += "{}\n{}\n".format(self.format_title("Time spent"), time)
+            new_skill.add_experience(skill, int(time))
+            subject = input(f"Subject (optional):")
+            self.entry += "{}\n{}\n".format(self.format_title("Subject"), subject)
             print(f"You can add additional details\n{hb}\n")
-            details = ""
             currLine = " "
             while currLine != "":
                 currLine = input()
                 if currLine != "":
-                    details += currLine
-            self.details.append(details)
+                    self.details.append(currLine)
+            self.entry += "{}\n{}\n\n\nDate: {}\n{}".format(self.format_title("Details"), '\n'.join(self.details), datetime.now().strftime("%A, %d. %B %Y"), draw_hb(40))
 
-    #def print_skills(self):
-    #    for skill in self.skill_obj:
-    #        print(skill.skill)
+        return self.entry
+
+    def format_title(self, title, str_length=40):
+        formated_title = ""
+        title_len = len(title)
+        title_start = math.floor((str_length - title_len)/2)
+
+        counter = 0
+        for x in range(str_length):
+            if x < title_start or x > title_start + title_len:
+                formated_title += "-"
+
+            elif counter < title_len:
+                formated_title += title[counter]
+                counter += 1
+
+            else:
+                formated_title += "-"
+
+        return formated_title
+
 
 diary = Diary()
-diary.add_entry()
-print(diary.subject)
-print(diary.details)
-
+print(diary.add_entry())
+#print(diary.format_title("Article", 40))
+#print(diary.details)
 #print(diary.print_skills())
